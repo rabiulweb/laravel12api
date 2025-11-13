@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BlogCategoryController;
+use App\Http\Controllers\Api\BlogPostController;
 use App\Http\Controllers\Api\StudentApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,10 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Blog Category APIs
+    Route::apiResource('/categories', BlogCategoryController::class)->middleware('role:admin');
+
+    // Blog Post APIs can be added here
+    Route::apiResource('/blogs', BlogPostController::class);
 });
